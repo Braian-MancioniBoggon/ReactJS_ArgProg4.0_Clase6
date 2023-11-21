@@ -74,7 +74,6 @@ const Formulario = () => {
               </Form>
             </Formik>
           </CardBody>
-          <Button type='submit' onClick={formik.handleReset}>Borrar Formulario</Button>
         </Card>
       </Flex>
     </VStack>
