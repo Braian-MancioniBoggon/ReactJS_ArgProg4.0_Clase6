@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, IconButton, Image, VStack, useColorMode, Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverArrow, PopoverCloseButton} from '@chakra-ui/react';
-import {FaSun, FaMoon, FaQuestion} from 'react-icons/fa'
+import {FaSun, FaMoon} from 'react-icons/fa'
 import React from 'react';
 const Header = () => {
     const { colorMode, toggleColorMode } = useColorMode();

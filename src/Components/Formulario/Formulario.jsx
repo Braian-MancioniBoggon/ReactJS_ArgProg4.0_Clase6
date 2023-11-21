@@ -6,7 +6,6 @@ import { motion } from "framer-motion"
 import { CampoFormulario } from '../CampoFormulario/CampoFormulario'
 import { PiUserCirclePlus } from "react-icons/pi"
 
-
 const Formulario = () => {
   const { values, errors, touched, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -33,7 +32,7 @@ const Formulario = () => {
   return(
     <VStack mt="100px">
       <Flex w="100%" justifyContent="center">
-        <Card variant="elevated"  w="30%">
+        <Card variant="elevated"  w={{base:"90%", sm:"60%", md:"40%", xl:"30%"}}>
           <CardHeader>
             <Flex spacing="4">
               <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -55,9 +54,11 @@ const Formulario = () => {
                 <CampoFormulario datoSolicitado={"Teléfono"} nombreDato={"telefono"} tipoDato={"number"} error={errors.telefono} value={values.telefono} touched={touched.telefono} change={handleChange} />
                 <CampoFormulario datoSolicitado={"Contraseña"} nombreDato={"password"} tipoDato={"password"} error={errors.password} value={values.password} touched={touched.password} change={handleChange} />
                 <CampoFormulario datoSolicitado={"Confirmar contraseña"} nombreDato={"confirmarPassword"} tipoDato={"password"} error={errors.confirmarPassword} value={values.confirmarPassword} touched={touched.confirmarPassword} change={handleChange} />
-                <motion.div whileHover={contador==0 ? { scale: 1 } : { scale: 1.2 }} whileTap={contador==0 ? { scale: 1 } : { scale: 0.8 }}>
-                  <Button mt="4"  bg="#7B5BE7" color="white" _hover={{ bg:"#623BE2" }} type="submit">Enviar</Button>
-                </motion.div>
+                <Box w="fit-content" h="fit-content">
+                  <motion.div whileHover={{scale: 1.2}} whileTap={{scale: 0.8}}>
+                    <Button mt="4"  bg="#7B5BE7" color="white" _hover={{ bg:"#623BE2" }} type="submit">Enviar</Button>
+                  </motion.div>
+                </Box>
               </Form>
             </Formik>
           </CardBody>
