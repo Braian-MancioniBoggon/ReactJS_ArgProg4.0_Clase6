@@ -7,7 +7,7 @@ const InputPassword = ({datoSolicitado, nombreDato, value, change, blur }) => {
     const verContraseña = () => setMostrar(!mostrar);
     return(
         <InputGroup>
-            <Input type={mostrar ? "text" : "password"} name={nombreDato} placeholder={datoSolicitado} value={value} onChange={change} onBlur={blur} />
+            <Input type={mostrar ? "text" : "password"} name={nombreDato} placeholder={datoSolicitado} value={value} onChange={change} onBlur={blur} borderColor="#e2e8f0" boxShadow="none" />
             <InputRightElement>
                 <IconButton icon={!mostrar ? <FaRegEye /> : <FaRegEyeSlash />} onClick={verContraseña} bg='transparent' _hover={{ bg:'transparent' }} tabIndex='-1'></IconButton>
             </InputRightElement>
