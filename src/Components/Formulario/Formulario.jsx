@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, VStack, Card, CardHeader, CardBody, Button, Heading, Box } from '@chakra-ui/react'
+import { Flex, VStack, Card, CardHeader, CardBody, Button, Heading, Box, useToast  } from '@chakra-ui/react'
 import { Form, useFormik, Formik } from 'formik'
 import * as Yup from 'yup'
 import { motion } from "framer-motion"
@@ -7,7 +7,9 @@ import { CampoFormulario } from '../CampoFormulario/CampoFormulario'
 import { PiUserCirclePlus } from "react-icons/pi"
 
 const Formulario = () => {
-  const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
+  const toast = useToast()
+
+  const formik = useFormik({
     initialValues: {
       nombre:"",
       apellido:"",
@@ -24,13 +26,20 @@ const Formulario = () => {
       password: Yup.string().required('Ingrese una contraseña').min(6, 'El minimo es de 6 caracteres').oneOf([Yup.ref("confirmarPassword")], "La contraseña no coincide"),
       confirmarPassword: Yup.string().required('Ingrese una contraseña').min(6, 'El minimo es de 6 caracteres').oneOf([Yup.ref("password")], "La contraseña no coincide"),
     }),
-    onSubmit:() => {
-      handleChange,
-      handleSubmit,
-      handleBlur,
-      console.log(values)
-    }
+    onSubmit:(values) => {
+      mostrarMensaje()
+    },
   })
+
+  const mostrarMensaje = () => {
+    const aviso = new Promise((resolve) => {
+      setTimeout(() => resolve(200), 6000)
+    })
+    toast.promise(aviso, {
+      success: { title: `Cuenta de ${formik.values.nombre} ${formik.values.apellido} creada exitosamente`, description: `Se envio un mail a ${formik.values.email} con los datos de acceso` },
+      loading: { title: 'Creando cuenta', description: 'Un momento porfavor' },
+    })
+  }
 
   return(
     <VStack mt="100px">
@@ -50,13 +59,13 @@ const Formulario = () => {
           </CardHeader>
           <CardBody>
             <Formik validateOnBlur={false} validateOnChange={false}>
-              <Form onSubmit={handleSubmit} autoComplete="off" noValidate>
-                <CampoFormulario datoSolicitado={"Nombre"} nombreDato={"nombre"} tipoDato={"text"} error={errors.nombre} value={values.nombre} touched={touched.nombre} change={handleChange} blur={handleBlur} />
-                <CampoFormulario datoSolicitado={"Apellido"} nombreDato={"apellido"} tipoDato={"text"} error={errors.apellido} value={values.apellido} touched={touched.apellido} change={handleChange} blur={handleBlur} />
-                <CampoFormulario datoSolicitado={"Email"} nombreDato={"email"} tipoDato={"email"} error={errors.email} value={values.email} touched={touched.email} change={handleChange} blur={handleBlur} />
-                <CampoFormulario datoSolicitado={"Teléfono"} nombreDato={"telefono"} tipoDato={"number"} error={errors.telefono} value={values.telefono} touched={touched.telefono} change={handleChange} blur={handleBlur} />
-                <CampoFormulario datoSolicitado={"Contraseña"} nombreDato={"password"} tipoDato={"password"} error={errors.password} value={values.password} touched={touched.password} change={handleChange} blur={handleBlur} />
-                <CampoFormulario datoSolicitado={"Confirmar contraseña"} nombreDato={"confirmarPassword"} tipoDato={"password"} error={errors.confirmarPassword} value={values.confirmarPassword} touched={touched.confirmarPassword} change={handleChange} blur={handleBlur} />
+              <Form onSubmit={formik.handleSubmit} autoComplete="off" noValidate>
+                <CampoFormulario datoSolicitado={"Nombre"} nombreDato={"nombre"} tipoDato={"text"} error={formik.errors.nombre} value={formik.values.nombre} touched={formik.touched.nombre} change={formik.handleChange} blur={formik.handleBlur} />
+                <CampoFormulario datoSolicitado={"Apellido"} nombreDato={"apellido"} tipoDato={"text"} error={formik.errors.apellido} value={formik.values.apellido} touched={formik.touched.apellido} change={formik.handleChange} blur={formik.handleBlur} />
+                <CampoFormulario datoSolicitado={"Email"} nombreDato={"email"} tipoDato={"email"} error={formik.errors.email} value={formik.values.email} touched={formik.touched.email} change={formik.handleChange} blur={formik.handleBlur} />
+                <CampoFormulario datoSolicitado={"Teléfono"} nombreDato={"telefono"} tipoDato={"number"} error={formik.errors.telefono} value={formik.values.telefono} touched={formik.touched.telefono} change={formik.handleChange} blur={formik.handleBlur} />
+                <CampoFormulario datoSolicitado={"Contraseña"} nombreDato={"password"} tipoDato={"password"} error={formik.errors.password} value={formik.values.password} touched={formik.touched.password} change={formik.handleChange} blur={formik.handleBlur} />
+                <CampoFormulario datoSolicitado={"Confirmar contraseña"} nombreDato={"confirmarPassword"} tipoDato={"password"} error={formik.errors.confirmarPassword} value={formik.values.confirmarPassword} touched={formik.touched.confirmarPassword} change={formik.handleChange} blur={formik.handleBlur} />
                 <Box w="fit-content" h="fit-content">
                   <motion.div whileHover={{scale: 1.2}} whileTap={{scale: 0.8}}>
                     <Button mt="4"  bg="#7B5BE7" color="white" _hover={{ bg:"#623BE2" }} type="submit">Enviar</Button>
@@ -65,6 +74,7 @@ const Formulario = () => {
               </Form>
             </Formik>
           </CardBody>
+          <Button type='submit' onClick={formik.handleReset}>Borrar Formulario</Button>
         </Card>
       </Flex>
     </VStack>

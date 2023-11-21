@@ -10,7 +10,7 @@ const Header = () => {
                 <Flex w="100%" alignItems="Center" justifyContent="space-between" bg="#623BE2" color="white" h="60px"   p="5">
                     <Flex>
                         <Heading  size="md" fontWeight="semibold" color="cyan.400" display="flex" alignItems="center"   alignContent="center">
-                            <Box><Image src='img/logo.png' alt='Nueva cuenta' w="100%" maxH="40px" /></Box>
+                            <Box><Image src='img/logo.png' alt='Compranding' w="100%" /></Box>
                         </Heading>
                     </Flex>
                     <Flex>
