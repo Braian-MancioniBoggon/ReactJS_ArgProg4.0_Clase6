@@ -7,7 +7,7 @@ import { CampoFormulario } from '../CampoFormulario/CampoFormulario'
 import { PiUserCirclePlus } from "react-icons/pi"
 
 const Formulario = () => {
-  const { values, errors, touched, handleChange, handleSubmit } = useFormik({
+  const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
     initialValues: {
       nombre:"",
       apellido:"",
@@ -19,13 +19,15 @@ const Formulario = () => {
     validationSchema: Yup.object().shape({
       nombre: Yup.string().required('Ingrese un nombre').min(4, 'El minimo es de 4 caracteres'),
       apellido: Yup.string().required('Ingrese un apellido').min(4, 'El minimo es de 4 caracteres'),
-      email: Yup.string().email().required('Ingrese un email').min(10, 'El minimo es de 10 caracteres'),
+      email: Yup.string().email().required('Ingrese un email').min(10, 'El minimo es de 10 caracteres').matches(/^[a-zA-Z0-9][a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'No es un email valido'),
       telefono: Yup.number().required('Ingrese un teléfono').min(10, 'El minimo es de 10 caracteres'),
       password: Yup.string().required('Ingrese una contraseña').min(6, 'El minimo es de 6 caracteres').oneOf([Yup.ref("confirmarPassword")], "La contraseña no coincide"),
       confirmarPassword: Yup.string().required('Ingrese una contraseña').min(6, 'El minimo es de 6 caracteres').oneOf([Yup.ref("password")], "La contraseña no coincide"),
     }),
     onSubmit:() => {
-      console.log("enviado");
+      handleChange,
+      handleSubmit,
+      handleBlur
     }
   })
 
@@ -46,14 +48,14 @@ const Formulario = () => {
             </Flex>
           </CardHeader>
           <CardBody>
-            <Formik>
+            <Formik validateOnBlur={false} validateOnChange={false}>
               <Form onSubmit={handleSubmit} autoComplete="off" noValidate>
-                <CampoFormulario datoSolicitado={"Nombre"} nombreDato={"nombre"} tipoDato={"text"} error={errors.nombre} value={values.nombre} touched={touched.nombre} change={handleChange} />
-                <CampoFormulario datoSolicitado={"Apellido"} nombreDato={"apellido"} tipoDato={"text"} error={errors.apellido} value={values.apellido} touched={touched.apellido} change={handleChange} />
-                <CampoFormulario datoSolicitado={"Email"} nombreDato={"email"} tipoDato={"email"} error={errors.email} value={values.email} touched={touched.email} change={handleChange} />
-                <CampoFormulario datoSolicitado={"Teléfono"} nombreDato={"telefono"} tipoDato={"number"} error={errors.telefono} value={values.telefono} touched={touched.telefono} change={handleChange} />
-                <CampoFormulario datoSolicitado={"Contraseña"} nombreDato={"password"} tipoDato={"password"} error={errors.password} value={values.password} touched={touched.password} change={handleChange} />
-                <CampoFormulario datoSolicitado={"Confirmar contraseña"} nombreDato={"confirmarPassword"} tipoDato={"password"} error={errors.confirmarPassword} value={values.confirmarPassword} touched={touched.confirmarPassword} change={handleChange} />
+                <CampoFormulario datoSolicitado={"Nombre"} nombreDato={"nombre"} tipoDato={"text"} error={errors.nombre} value={values.nombre} touched={touched.nombre} change={handleChange} blur={handleBlur} />
+                <CampoFormulario datoSolicitado={"Apellido"} nombreDato={"apellido"} tipoDato={"text"} error={errors.apellido} value={values.apellido} touched={touched.apellido} change={handleChange} blur={handleBlur} />
+                <CampoFormulario datoSolicitado={"Email"} nombreDato={"email"} tipoDato={"email"} error={errors.email} value={values.email} touched={touched.email} change={handleChange} blur={handleBlur} />
+                <CampoFormulario datoSolicitado={"Teléfono"} nombreDato={"telefono"} tipoDato={"number"} error={errors.telefono} value={values.telefono} touched={touched.telefono} change={handleChange} blur={handleBlur} />
+                <CampoFormulario datoSolicitado={"Contraseña"} nombreDato={"password"} tipoDato={"password"} error={errors.password} value={values.password} touched={touched.password} change={handleChange} blur={handleBlur} />
+                <CampoFormulario datoSolicitado={"Confirmar contraseña"} nombreDato={"confirmarPassword"} tipoDato={"password"} error={errors.confirmarPassword} value={values.confirmarPassword} touched={touched.confirmarPassword} change={handleChange} blur={handleBlur} />
                 <Box w="fit-content" h="fit-content">
                   <motion.div whileHover={{scale: 1.2}} whileTap={{scale: 0.8}}>
                     <Button mt="4"  bg="#7B5BE7" color="white" _hover={{ bg:"#623BE2" }} type="submit">Enviar</Button>
