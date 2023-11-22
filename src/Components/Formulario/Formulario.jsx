@@ -22,7 +22,7 @@ const Formulario = () => {
       nombre: Yup.string().required('Ingrese un nombre').min(4, 'El minimo es de 4 caracteres').matches(/^[a-zA-Z]/,'Ingrese solo letras'),
       apellido: Yup.string().required('Ingrese un apellido').min(4, 'El minimo es de 4 caracteres').matches(/^[a-zA-Z]/,'Ingrese solo letras'),
       email: Yup.string().email('No es un email valido').required('Ingrese un email').min(10, 'El minimo es de 10 caracteres').matches(/^[a-zA-Z0-9][a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'No es un email valido'),
-      telefono: Yup.number().required('Ingrese un teléfono').matches(/^\d{10}$/,'Ingrese el número sin 0 y sin 15'),
+      telefono: Yup.string().required('Ingrese un teléfono').matches(/^\d{10}$/,'Ingrese el número sin 0 y sin 15'),
       password: Yup.string().required('Ingrese una contraseña').min(6, 'El minimo es de 6 caracteres').oneOf([Yup.ref("confirmarPassword")], "La contraseña no coincide"),
       confirmarPassword: Yup.string().required('Ingrese una contraseña').min(6, 'El minimo es de 6 caracteres').oneOf([Yup.ref("password")], "La contraseña no coincide"),
     }),
